@@ -29,6 +29,6 @@ router.get('/', function(req, res, next) {
     image:"https://rukminim1.flixcart.com/image/832/832/l5h2xe80/mobile/5/x/r/-original-imagg4xza5rehdqv.jpeg?q=70"
   }]
   res.render('index', { products});
-});
+}); 
 
 module.exports = router;
