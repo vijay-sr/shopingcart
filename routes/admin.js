@@ -40,12 +40,14 @@ router.post('/add-products',(req,res)=>{
   console.log(req.body);
   console.log(req.files.image);
  
-  productHelpers.addProduct(req.body,(id)=>{
+  productHelpers.addProduct(req.body,(insertedId)=>{
     let Image=req.files.image;
-    const uploadPath =__dirname+'./public/product-image/'+id+'.jpg';
-    console.log("this is the picture id : "+ id);
+    const imageName=insertedId
+    console.log(insertedId);
+    // const uploadPath ='./public/product-image/'+id+'.jpg';
+    console.log("this is the picture id : "+ imageName);
 
-    Image.mv(uploadPath, (err,done)=>{
+    Image.mv('./public/product-image/'+imageName+'.jpg', (err,done)=>{
       if(!err){
         res.render('admin/add-products')
       }else{
