@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
     name: "Samsung Galaxy S22",
     category:"Mobile",
     description:"New Launch 5G mobile",
-    image:"https://rukminim1.flixcart.com/image/832/832/l3khsi80/mobile/f/s/y/galaxy-s22-ultra-5g-sm-s08edrginu-sm-s908e-ds-samsung-original-imagenuuky3dbc2d.jpeg?q=70"
+    image:"https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/g/z/p/-original-imaggj68yffchuwx.jpeg?q=70"
   },
   {
     name: "Apple Iphone 14 Pro",
