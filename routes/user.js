@@ -1,34 +1,59 @@
+const { response } = require('express');
 var express = require('express');
+const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
+var userHelpers= require('../helpers/user-helpers')
+
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
-  let products=[{
-    name: "Samsung Galaxy S22",
-    category:"Mobile",
-    description:"New Launch 5G mobile",
-    image:"https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/g/z/p/-original-imaggj68yffchuwx.jpeg?q=70"
-  },
-  {
-    name: "Apple Iphone 14 Pro",
-    category:"Mobile",
-    description:"New Series",
-    image:"https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/9/f/p/-original-imaghxenhnpyhn5u.jpeg?q=70"
-  },
-  {
-    name: "Redmi Note 11",
-    category:"Mobile",
-    description:"Latest Featured Segment phone",
-    image:"https://rukminim1.flixcart.com/image/312/312/xif0q/mobile/p/5/r/redmi-note-11-2201117ti-mi-original-imaggghwgnzxzzvm.jpeg?q=70"
-  },
-  {
-    name: "Nothing Phone 1",
-    category:"Mobile",
-    description:"Trending smartphone segment",
-    image:"https://rukminim1.flixcart.com/image/832/832/l5h2xe80/mobile/5/x/r/-original-imagg4xza5rehdqv.jpeg?q=70"
-  }]
-  res.render('index', { products});
+  let user=req.session.user
+  console.log(user);
+  productHelpers.getAllProducts().then((products)=>{
+    // console.log(products);
+     res.render('users/view-products', {products, user });    
+   })
 }); 
+router.get('/login',function(req,res){
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }
+  res.render('users/login')
+})
+router.get('/signup',function(req,res){
+  res.render('users/signup')
+ })
+router.post('/signup',function(req, res){
+  userHelpers.doSignup(req.body) 
+  res.redirect('/')
+  })
+router.post('/login',function(req,res){
+  userHelpers.doLogin(req.body).then((response)=>{
+    if(response.status){
+      req.session.loggedIn=true
+      req.session.user=response.user
+      res.redirect('/')
+    }else{
+      res.render('users/login',{loginStatus:"Login failed, wrong email or password"})
+    }
+}
+)
+})
+router.get('/logout',(req,res)=>{
+  req.session.destroy()
+  res.redirect('/')
+})
+const verifyLogin= (req,res,next)=>{
+  if(req.session.loggedIn){
+    next()}
+    else{
+    res.redirect('/login')
+  }
+}
+router.get('/cart',verifyLogin,(req,res)=>{
+  res.render('users/cart')
+})
 
 module.exports = router;

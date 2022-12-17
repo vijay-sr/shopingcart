@@ -1,60 +1,60 @@
 var express = require('express');
+const { response } = require('../app');
+const { getAllProducts } = require('../helpers/product-helpers');
 var router = express.Router();
-var productHelpers=require('../helpers/product-helpers')
+var productHelpers = require('../helpers/product-helpers')
 /* GET users listing. */
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 
-  let products=[{
-    name: "Samsung Galaxy S22",
-    category:"Mobile",
-    description:"New Launch 5G mobile",
-    image:"https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/g/z/p/-original-imaggj68yffchuwx.jpeg?q=70"
-  },
-  {
-    name: "Apple Iphone 14 Pro",
-    category:"Mobile",
-    description:"New Series",
-    image:"https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/9/f/p/-original-imaghxenhnpyhn5u.jpeg?q=70"
-  },
-  {
-    name: "Redmi Note 11",
-    category:"Mobile",
-    description:"Latest Featured Segment phone",
-    image:"https://rukminim1.flixcart.com/image/312/312/xif0q/mobile/p/5/r/redmi-note-11-2201117ti-mi-original-imaggghwgnzxzzvm.jpeg?q=70"
-  },
-  {
-    name: "Nothing Phone 1",
-    category:"Mobile",
-    description:"Trending smartphone segment",
-    image:"https://rukminim1.flixcart.com/image/832/832/l5h2xe80/mobile/5/x/r/-original-imagg4xza5rehdqv.jpeg?q=70"
-  }]
-  res.render('admin/view-products',{admin:true, products});
+  productHelpers.getAllProducts().then((products)=>{
+   console.log(products);
+    res.render('admin/view-products', { admin: true, products });    
+  })
 });
 
-router.get('/add-products',function(req,res){
+router.get('/add-products', function (req, res) {
   res.render('admin/add-products')
-  
-})
-router.post('/add-products',(req,res)=>{
-  console.log(req.body);
-  console.log(req.files.image);
- 
-  productHelpers.addProduct(req.body,(insertedId)=>{
-    let Image=req.files.image;
-    const imageName=insertedId
-    console.log(insertedId);
-    // const uploadPath ='./public/product-image/'+id+'.jpg';
-    console.log("this is the picture id : "+ imageName);
 
-    Image.mv('./public/product-image/'+imageName+'.jpg', (err,done)=>{
-      if(!err){
+})
+router.post('/add-products', (req, res) => {
+  productHelpers.addProduct(req.body, (insertedId) => {
+    let Image = req.files.image;
+    const imageName = insertedId
+    // console.log(insertedId);
+
+    Image.mv('./public/product-image/' + imageName + '.jpg', (err, done) => {
+      if (!err) {
         res.render('admin/add-products')
-      }else{
+      } else {
         console.log(err);
       }
     })
-   
+
+  })
+})
+router.get('/delete-product/:id',(req,res)=>{
+  let proId=req.params.id
+  console.log(proId);
+  productHelpers.deleteProduct(proId).then((response)=>{
+    res.redirect('/admin/')
+    console.log(response);
+  })
+})
+router.get('/edit-product/:id', async (req,res)=>{
+  let product=await productHelpers.editProduct(req.params.id)
+    console.log(product);
+  res.render('admin/edit-product',{product})
+})
+router.post('/edit-product/:id',(req,res)=>{
+  let id=req.params.id
+  productHelpers.updateProduct(req.params.id,req.body).then(()=>{
+    res.redirect('/admin/')
+    if(req.files.image){
+      let Image=req.files.image
+      Image.mv('./public/product-image/'+id+'.jpg')
+    }
+
   })
 })
 

@@ -1,0 +1,29 @@
+<section>
+    <div class="container mt-5">
+
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            {{#each products}}
+            <div class="col">
+                <div class="card border-0"  onclick="location.href='/cart'" style="align-items: center; cursor: pointer;">
+                    <img src="/product-image/{{this._id}}.jpg" id="imgcard" style="width:180px; height:180px ;" class="card-img-top mt-3 text-center" alt="...">
+                    <div class="card-body text-center" >
+                        <h5 class="card-title">{{this.name}}</h5>
+                        <p class="card-text d-inline-block text-truncate" style="max-width: 200px;" >{{this.description}}</p>
+                    </div>
+                    <div class="card-text">
+                        <h5 href="#" class="card-text mb-3">&#8377;{{this.price}}</a>
+                        {{!-- <a href="#" class="card-link">Another link</a> --}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</section>
+<style>
+   #imgcard:hover{ 
+    z-index: 1;
+    transform: scale(1.05 ,1.05);
+    transition-duration: 0.3s; }
+</style>

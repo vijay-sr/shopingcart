@@ -6,7 +6,7 @@ var logger = require('morgan');
 var hbs = require('express-handlebars');
 var fileUpload= require('express-fileupload');
 var db=require('./config/connection')
-
+var session= require('express-session')
 
 db.connect((err)=>{
   if(err){
@@ -20,6 +20,8 @@ db.connect((err)=>{
 
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
+
+// var signupRouter = require('../views/users/signup');
 // const { handlebars } = require('hbs');
 
 var app = express();
@@ -34,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
+app.use(session({secret:"key",cookie:{maxAge:60000},resave:true,saveUninitialized:true}))
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 
