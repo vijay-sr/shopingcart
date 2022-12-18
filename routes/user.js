@@ -26,8 +26,12 @@ router.get('/signup',function(req,res){
   res.render('users/signup')
  })
 router.post('/signup',function(req, res){
-  userHelpers.doSignup(req.body) 
+  userHelpers.doSignup(req.body).then((response)=>{ 
+    console.log(response);
+  req.session.loggedIn=true
+  req.session.user=response.user
   res.redirect('/')
+  })
   })
 router.post('/login',function(req,res){
   userHelpers.doLogin(req.body).then((response)=>{
@@ -55,5 +59,15 @@ const verifyLogin= (req,res,next)=>{
 router.get('/cart',verifyLogin,(req,res)=>{
   res.render('users/cart')
 })
+
+router.get('/product-window/:id',async(req,res)=>{
+  let user=req.session.user
+  // console.log(user);
+  let products = await userHelpers.productWindow(req.params.id)
+    console.log(products);
+     res.render('users/product-window', {products,user});    
+   })
+
+
 
 module.exports = router;

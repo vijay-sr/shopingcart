@@ -37,7 +37,7 @@ module.exports = {
                     name:proDetails.name,
                     category:proDetails.category,
                     price:proDetails.price,
-                    decription:proDetails.decription
+                    description:proDetails.description
                 }
             }).then((response)=>{
                     resolve(response)

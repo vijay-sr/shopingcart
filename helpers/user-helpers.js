@@ -1,26 +1,24 @@
 var db = require('../config/connection')
 var collection = require('../config/collections')
 var bcrypt = require('bcrypt')
+var objectId=require('mongodb').ObjectId
 const { response } = require('express')
 module.exports = {
     doSignup: (userData) => {
         //     return new Promise(async(resolve, reject)=>{
-
-        //         userData.Password=await bcrypt.hash(userData.Password,10)
-
-        //          db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
-        //             resolve(data.ops[0])
+        //         userData.Password=await bcrypt.hash(userData.Password,salt)
+        //         db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
+        //             resolve(data)
         //     })
         // })
 
-        new Promise(async (resolve, reject) => {
+         return new Promise(async (resolve, reject) => {
             const salt = await bcrypt.genSalt(10)
             userData.password = await bcrypt.hash(userData.password, salt)
-            db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
+            db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
                 resolve(data)
                 console.log(userData);
-
-            })
+            }) 
         })
 
     },
@@ -48,5 +46,26 @@ module.exports = {
                 resolve(response)
             }  
         })
+    },
+    
+    productWindow:(proId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(proId)}).then((product)=>{
+                resolve(product)
+            })
+
+        })
     }
+
+// {
+//     productWindow:(proWin)=>{
+//         return new Promise((resolve,reject)=>{
+//             db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(proWin)}).then((product)=>{
+//                 resolve(product)
+//             })
+
+//         })
+//     }
+// }
+
 }
