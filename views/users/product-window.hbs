@@ -17,7 +17,8 @@
                     <p class="card-text">
                     </p>
                     <br>
-                    <a href="/cart" class="btn btn-primary">Add Cart</a>
+                    {{!-- <a href="/addCart/{{products._id}}" class="btn btn-primary">Add Cart</a> --}}
+                    <button onclick="addToCart('{{products._id}}'),location.href='/cart' "  class="btn btn-primary">Add Cart</button>
                 </div>
             </div>
         </div>

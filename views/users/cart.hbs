@@ -1,66 +1,132 @@
-<section class="h-100 h-custom" style="background-color: #d2c9ff;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12">
-        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-          <div class="card-body p-0">
-            <div class="row g-0">
-              <div class="col-lg-8">
-                <div class="p-5">
-                  <div class="d-flex justify-content-between align-items-center mb-5">
-                    <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                    <h6 class="mb-0 text-muted">3 items</h6>
-                  </div>
-                  <hr class="my-4">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{{#if products}}
+<div class="container">
+  <div class="row mt-3">
+    <aside class="col-lg-9">
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table table-borderless table-shopping-cart">
+            <thead class="text-muted">
+              <tr class="small text-uppercase">
+                <th scope="col">Product</th>
+                <th scope="col" width="120">Quantity</th>
+                <th scope="col" width="120">Price</th>
+                <th scope="col" class="text-right d-none d-md-block" width="200">WishList/Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each products}}
+              <tr>
+                <td>
+                  <figure class="itemside align-items-center">
+                    <div class="aside"><img src="/product-image/{{this.product._id}}.jpg" style="width:100px ;height:100px ;" class="img-sm"></div>
+                    <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">{{this.product.name}}</a>
+                      <p class="text-muted small">{{this.product.description}}<br><i class="text-success"> In Stock</i></p>
+                    </figcaption>
+                  </figure>
+                </td>
 
-                  <div class="row mb-4 d-flex justify-content-between align-items-center">
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
-                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3">
-                      <h6 class="text-muted">Shirt</h6>
-                      <h6 class="text-black mb-0">Cotton T-shirt</h6>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                        <i class="fas fa-minus"></i>
-                      </button>
+                <td > 
+                    <button class="btn btn-outline-success " onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)" style="width: 25px;height: 25px; padding: 0px;box-shadow: none;" >-</button>
+                    <span id="{{this.product._id}}">{{this.quantity}}</span>  
+                    <button  class="btn btn-outline-success" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)" style="width: 25px;height: 25px;padding: 0px; box-shadow: none;">+</button> 
+    
+                 </td>
+                <td>
+                  <div class="price-wrap"> <var class="price">&#x20b9;{{this.product.price}}</var><br> <small class="text-muted; text-success">30% off
+                    </small> </div>
+                </td>
 
-                      <input id="form1" min="0" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm" />
+                <td class="text-right  d-md-block"> 
+                  <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-success" data-toggle="tooltip" data-abc="true"> <i class="fa fa-heart"></i></a> 
+                    <button class="btn btn-danger" data-abc="true" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-2)"> Remove</button>
+                    </td>
+              </tr>
+              {{/each}}
 
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </div>
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h6 class="mb-0">€ 44.00</h6>
-                    </div>
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
-                    </div>
-                  </div>
-
-                  <hr class="my-4">
-
-                  <div class="d-flex justify-content-between mb-5">
-                    <h5 class="text-uppercase">Total price</h5>
-                    <h5>€ 137.00</h5>
-                  </div>
-
-                  <button type="button" class="btn btn-dark btn-block btn-lg"
-                    data-mdb-ripple-color="dark">Checkout</button>
-
-                </div>
-              </div>
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
+    </aside>
+   
+    <aside class="col-lg-3">
+      <div class="card mb-3">
+        <div class="card-body">
+          <form>
+            <div class="form-group"> <label>Have coupon?</label>
+              <div class="input-group"> <input type="text" class="form-control coupon" name=""
+                  placeholder="Coupon code"> <span class="input-group-append"> <button
+                    class="btn btn-primary btn-apply coupon">Apply</button> </span> </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <dl class="dlist-align">
+            <dt>Total price:</dt>
+            <dd class="text-right ml-3"><span id="total">{{totalValue}}</span></dd>
+          </dl>
+          <dl class="dlist-align">
+            <dt>Discount:</dt>
+            <dd class="text-right text-danger ml-3">- $10.00</dd>
+          </dl>
+          <dl class="dlist-align">
+            <dt>Total:</dt>
+            <dd class="text-right text-dark b ml-3"><strong>$59.97</strong></dd>
+          </dl>
+          <hr> <a href="/placeOrder" class="btn btn-out btn-primary btn-square btn-main" data-abc="true" style="width:100%;"> Place Order </a> <a
+            href="/" class="btn btn-out btn-success btn-square btn-main mt-2 " data-abc="true" style="width:100%;">Continue Shopping</a>
+        </div>
+      </div>
+    </aside>
   </div>
-</section>
+</div>
+{{else}}
+<div style="">
+  <div style="text-align: center; margin-top: 100px; ">
+    <img src="images/shopping-3158120.png"  style="width: 200px; height: 200px;" alt="">
+  </div>
+  <div style="text-align: center; padding-bottom:10px ;margin-top: 30px;">
+    <h2>Your cart is empty!</h2>
+    <h6 class="text-muted">Add items to cart</h6>
+  </div>
+  <div style="text-align: center;">
+    <a href="/" class="btn btn-primary" role="button" aria-disabled="true">Shop now</a>
+  </div>
+</div>
+{{/if}}
+
+
+<script>
+  function changeQuantity(cartId,proId,userId,count){
+    let quantity=parseInt(document.getElementById(proId).innerHTML)
+    count =parseInt(count)
+    $.ajax({
+      url:'/change-product-quantity',
+      data:{
+        user:userId,
+        cart:cartId,
+        product:proId,
+        count:count,
+        quantity:quantity
+        
+      },
+      method:'post',
+      success:(response)=>{
+        if(response.removeProduct){
+        alert("Product removed from cart")
+        location.reload()
+      }else{
+        document.getElementById(proId).innerHTML=quantity+count;
+        document.getElementById('total').innerHTML=response.total;
+
+      }
+      }
+    })
+  }
+
+</script>
+
+  
