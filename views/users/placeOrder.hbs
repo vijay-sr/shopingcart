@@ -6,7 +6,7 @@
           <div class="row  mx-auto justify-content-center text-center mt-3">
             <h3>CHECKOUT</h3>
           </div>
-          <form action="" method="post" enctype="multipart/form-data">
+          <form id="checkout-form" method="post" enctype="multipart/form-data">
             <div class="row justify-content-around">
               <div class="col-md-5">
                 <div class="card border-0">
@@ -26,7 +26,7 @@
                         <label for="floatingTextarea2">Address</label>
                       </div>
                       <div class="form-floating mb-3">
-                        <input type="text" name="mobile" class="form-control" placeholder="contact" required>
+                        <input type="text" name="mobile"  class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="contact" required>
                         <label for="floatingInput">Contact No</label>
                       </div>
                     </div>
@@ -51,7 +51,7 @@
                       </div>
                       <div class="col">
                         <div class="form-floating mb-4">
-                          <input type="text" name="pincode" class="form-control" placeholder="name@example.com"
+                          <input type="text" name="pincode" maxlength="6" minlength="6" class="form-control" placeholder="name@example.com" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                             required>
                           <label for="floatingInput">Pincode</label>
                         </div>
@@ -137,7 +137,7 @@
                       </div>
                     </div>
                     <div class="row mb-5 mt-4 ">
-                      <button type="submit" class="btn btn-outline-primary ">Checkout</button>
+                      <button type="submit"  class="btn btn-outline-primary ">Checkout</button>
                     </div>
                   </div>
                 </div>
@@ -158,13 +158,13 @@
       url: '/placeOrder',
       method: 'post',
       data: $('#checkout-form').serialize(),
-      success: (response) => {
-        alert(response)
-        if(response.status=true){
-          location.href='users/orders'
+      success:(response) => {
+        if(response.status){
+          location.href='/order-feedback'
         }
       }
 
     })
   })
+
 </script>

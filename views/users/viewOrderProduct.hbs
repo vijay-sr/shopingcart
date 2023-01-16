@@ -1,0 +1,43 @@
+{{!-- <section>
+    <div class="container">
+        <div class="row">
+            {{#each orderItems}}
+            <div class="col-md-3 p-3">
+                <div class="card" style="width: 15rem; border: none;">
+                    <img src="/product-image/{{product._id}}.jpg" alt="">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{this.product.name}}</h5>
+                    <p class="card-text">Rs.{{this.product.price}}</p>
+                    <p class="card-text">{{this.product.description}}</p>
+                    <p class="card-text">{{this.quantity}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</section> --}}
+
+
+<section class="container">
+    {{#each orderItems}}
+    <div class="card mt-3 p-3 m-5" style="cursor: pointer;" onclick="location.href='/product-window/{{product._id}}' ">
+        <table>
+            <thead>
+                <td>
+                    <div class="card m-1" style="width:5rem; border: none; float:left;">
+                        <img src="/product-image/{{product._id}}.jpg" alt="">
+                    </div>
+                </td>
+                <td>
+                    <h6 class="card-title">{{this.product.name}}</h6>
+                    <h6 class="card-title">{{this.product.description}}</h6>
+                </td>
+                <td>
+                    <p class="card-text">Rs. {{this.product.price}} /-</p>
+                </td>
+            </thead>
+        </table>
+    </div>
+    {{/each}}
+</section>
