@@ -7,38 +7,19 @@ const { set } = require('../app')
 module.exports = {
  
     doSignup: (userData) => {
-        //     return new Promise(async(resolve, reject)=>{
-        //         userData.Password=await bcrypt.hash(userData.Password,salt)
-        //         db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data)=>{
-        //             resolve(data)
-        //     })
-        // })
-
         return new Promise(async (resolve, reject) => {
             const salt = await bcrypt.genSalt(10)
             userData.password = await bcrypt.hash(userData.password, salt)
-
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
             if(user){
                 resolve({status:false})
             }else{
-            // db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
-                // resolve(data)
             db.get().collection(collection.USER_COLLECTION).insertOne(userData)
                 resolve({status:true})
-                console.log(userData);
-            
+                console.log(userData);  
         }
         })
-
     },
-
-    // checkUser:(userData)=>{
-    //     return new Promise((resolve, reject)=>{
-
-    //     })
-    // },
-
     doLogin: (userData) => {
         let loginStatus = false
         let response = {}
@@ -46,13 +27,11 @@ module.exports = {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
             if (user) {
                 bcrypt.compare(userData.password, user.password).then((status) => {
-
                     if (status) {
                         console.log("login success");
                         response.user = user
                         response.status = true
                         resolve(response)
-
                     } else {
                         console.log("login failed");
                         resolve({ status: false })
@@ -64,14 +43,12 @@ module.exports = {
             }
         })
     },
-
     productWindow: (proId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(proId) }).then((product) => {
                 resolve(product)
                 console.log("Product ID is" + proId);
             })
-
         })
     },
     addToCart: (proId, userId) => {
@@ -159,7 +136,6 @@ module.exports = {
                 count = cart.products.length
             }
             resolve(count)
-
         })
     },
     changeCartQuantity:(details) => {
@@ -199,8 +175,6 @@ module.exports = {
                 })
             }
         })
-    
-    
 },
 getTotalAmount:(userId)=>{
     return new Promise(async (resolve, reject) => {
@@ -240,9 +214,7 @@ getTotalAmount:(userId)=>{
         ]).toArray()
         resolve(total[0].total)
         console.log("total amount  "+total[0].total);
-
         })
-
 },
 placeOrder:(order,products,total)=>{
 return new Promise((resolve, reject)=>{
@@ -258,18 +230,16 @@ return new Promise((resolve, reject)=>{
         },
         userId:objectId(order.userId),
         date:new Date().toLocaleString(),
+        // date:(new Date().toLocaleDateString("en-US", {year: 'numeric', month: 'short', day: 'numeric'})),
+        // time:(new Date().toLocaleTimeString()),
         paymentMethod:order['payment-method'],
         products:products,
         totalAmount:total,
-        status:status,
-        
+        status:status,   
     }
-   
-   
     db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
         db.get().collection(collection.CART_COLLECTION).deleteOne({user:objectId(order.userId)})
         resolve(response)
-        console.log("products look this", products);
     })
 })
 },
@@ -278,18 +248,9 @@ getCartProductList:(userId)=>{
         console.log(userId);
         let cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:objectId(userId)})
         // let cart=await db.get().collection(collection.CART_COLLECTION).find().toArray()
-
         resolve(cart)
-        console.log("cart items### ", cart);
     })
 },
-
-// getAllProducts:()=>{
-//     return new Promise(async(resolve,reject)=>{
-//         let products=await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
-//         resolve(products)
-//     })
-// },
 getOrders:()=>{
     return new Promise(async(resolve,reject)=>{
         let orders=await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
@@ -366,8 +327,34 @@ getOrderPage: (userId) => {
 },
 //   getSearch:(proDetails)=>{
 //         return new Promise(async (resolve, reject) => {
-//             let search = await db.get().collection(collection.PRODUCT_COLLECTION).find({$text:{$search:proDetails.name}})
-//             // let search = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({name: proDetails.name })
+//             let search = await db.get().collection(collection.PRODUCT_COLLECTION).find({$text:{$search:proDetails}})
+//             let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
+//                 {
+//                     $match: { product: objectId(userId) }
+//                 },
+//                 {
+//                     $unwind: '$products'
+//                 },
+//                 {
+//                     $project: {
+//                         item: '$products.item',
+//                         quantity: '$products.quantity'
+//                     }
+//                 },
+//                 {
+//                     $lookup: {
+//                         from: collection.PRODUCT_COLLECTION,
+//                         localField: 'item',
+//                         foreignField: '_id',
+//                         as: 'product'
+//                     }
+//                 },
+//                 {
+//                     $project: {
+//                         item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
+//                     }
+//                 }
+//             ]).toArray()
 //                 resolve(search)
 //             console.log("search :"+search)
 //     })

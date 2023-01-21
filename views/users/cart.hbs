@@ -19,28 +19,39 @@
               <tr>
                 <td>
                   <figure class="itemside align-items-center">
-                    <div class="aside"><img src="/product-image/{{this.product._id}}.jpg" style="width:100px ;height:100px ;" class="img-sm"></div>
-                    <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">{{this.product.name}}</a>
-                      <p class="text-muted small">{{this.product.description}}<br><i class="text-success"> In Stock</i></p>
+                    <div class="aside"><img src="/product-image/{{this.product._id}}.jpg"
+                        style="width:100px ;height:100px ;" class="img-sm"></div>
+                    <figcaption class="info"> <a href="#" class="title text-dark"
+                        data-abc="true">{{this.product.name}}</a>
+                      <p class="text-muted small">{{this.product.description}}<br><i class="text-success"> In Stock</i>
+                      </p>
                     </figcaption>
                   </figure>
                 </td>
 
-                <td > 
-                    <button class="btn btn-outline-success " onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)" style="width: 25px;height: 25px; padding: 0px;box-shadow: none;" >-</button>
-                    <span id="{{this.product._id}}">{{this.quantity}}</span>  
-                    <button  class="btn btn-outline-success" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)" style="width: 25px;height: 25px;padding: 0px; box-shadow: none;">+</button> 
-    
-                 </td>
                 <td>
-                  <div class="price-wrap"> <var class="price">&#x20b9;{{this.product.price}}</var><br> <small class="text-muted; text-success">30% off
+                  <button class="btn btn-outline-success "
+                    onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)"
+                    style="width: 25px;height: 25px; padding: 0px;box-shadow: none;">-</button>
+                  <span id="{{this.product._id}}">{{this.quantity}}</span>
+                  <button class="btn btn-outline-success"
+                    onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)"
+                    style="width: 25px;height: 25px;padding: 0px; box-shadow: none;">+</button>
+
+                </td>
+                <td>
+                  <div class="price-wrap"> <var class="price">&#x20b9;{{this.product.price}}</var><br> <small
+                      class="text-muted; text-success">30% off
                     </small> </div>
                 </td>
 
-                <td class="text-right  d-md-block"> 
-                  <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-success" data-toggle="tooltip" data-abc="true"> <i class="fa fa-heart"></i></a> 
-                    <button class="btn btn-danger" data-abc="true" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-2)"> Remove</button>
-                    </td>
+                <td class="text-right  d-md-block">
+                  <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-success"
+                    data-toggle="tooltip" data-abc="true"> <i class="fa fa-heart"></i></a>
+                  <button class="btn btn-danger" data-abc="true"
+                    onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-2)">
+                    Remove</button>
+                </td>
               </tr>
               {{/each}}
 
@@ -49,35 +60,25 @@
         </div>
       </div>
     </aside>
-   
+
     <aside class="col-lg-3">
-      <div class="card mb-3">
-        <div class="card-body">
-          <form>
-            <div class="form-group"> <label>Have coupon?</label>
-              <div class="input-group"> <input type="text" class="form-control coupon" name=""
-                  placeholder="Coupon code"> <span class="input-group-append"> <button
-                    class="btn btn-primary btn-apply coupon">Apply</button> </span> </div>
-            </div>
-          </form>
-        </div>
-      </div>
       <div class="card">
         <div class="card-body">
           <dl class="dlist-align">
             <dt>Total price:</dt>
-            <dd class="text-right ml-3"><span id="total">{{totalValue}}</span></dd>
+            <dd class="text-right ml-3"><span id="total">&#x20b9;{{totalValue}}</span></dd>
           </dl>
+          {{!-- <dl class="dlist-align">
+            <dt>Quantity</dt>
+            <dd class="text-right text-danger ml-3">&#x20b9;10 %</dd>
+          </dl> --}}
           <dl class="dlist-align">
-            <dt>Discount:</dt>
-            <dd class="text-right text-danger ml-3">- $10.00</dd>
+            <dt>Sub Total:</dt>
+            <dd class="text-right text-dark b ml-3"><span id="subtotal"> &#x20b9;{{totalValue}}</span></dd>
           </dl>
-          <dl class="dlist-align">
-            <dt>Total:</dt>
-            <dd class="text-right text-dark b ml-3"><strong>$59.97</strong></dd>
-          </dl>
-          <hr> <a href="/placeOrder" class="btn btn-out btn-primary btn-square btn-main" data-abc="true" style="width:100%;"> Place Order </a> <a
-            href="/" class="btn btn-out btn-success btn-square btn-main mt-2 " data-abc="true" style="width:100%;">Continue Shopping</a>
+          <hr> <a href="/placeOrder" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"
+            style="width:100%;"> Place Order </a> <a href="/" class="btn btn-out btn-success btn-square btn-main mt-2 "
+            data-abc="true" style="width:100%;">Continue Shopping</a>
         </div>
       </div>
     </aside>
@@ -86,7 +87,7 @@
 {{else}}
 <div style="">
   <div style="text-align: center; margin-top: 100px; ">
-    <img src="images/shopping-3158120.png"  style="width: 200px; height: 200px;" alt="">
+    <img src="images/shopping-3158120.png" style="width: 200px; height: 200px;" alt="">
   </div>
   <div style="text-align: center; padding-bottom:10px ;margin-top: 30px;">
     <h2>Your cart is empty!</h2>
@@ -100,33 +101,33 @@
 
 
 <script>
-  function changeQuantity(cartId,proId,userId,count){
-    let quantity=parseInt(document.getElementById(proId).innerHTML)
-    count =parseInt(count)
+  function changeQuantity(cartId, proId, userId, count) {
+    let quantity = parseInt(document.getElementById(proId).innerHTML)
+    count = parseInt(count)
     $.ajax({
-      url:'/change-product-quantity',
-      data:{
-        user:userId,
-        cart:cartId,
-        product:proId,
-        count:count,
-        quantity:quantity
-        
-      },
-      method:'post',
-      success:(response)=>{
-        if(response.removeProduct){
-        alert("Product removed from cart")
-        location.reload()
-      }else{
-        document.getElementById(proId).innerHTML=quantity+count;
-        document.getElementById('total').innerHTML=response.total;
+      url: '/change-product-quantity',
+      data: {
+        user: userId,
+        cart: cartId,
+        product: proId,
+        count: count,
+        quantity: quantity
 
-      }
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.removeProduct) {
+          confirm("Are you sure")
+          alert("Product removed from cart")
+          location.reload();
+        } else {
+          document.getElementById(proId).innerHTML = quantity + count;
+          document.getElementById('total').innerHTML = response.total;
+          document.getElementById('subtotal').innerHTML = response.total;
+
+        }
       }
     })
   }
 
 </script>
-
-  

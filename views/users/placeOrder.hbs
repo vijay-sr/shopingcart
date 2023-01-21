@@ -26,7 +26,9 @@
                         <label for="floatingTextarea2">Address</label>
                       </div>
                       <div class="form-floating mb-3">
-                        <input type="text" name="mobile"  class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="contact" required>
+                        <input type="text" name="mobile" class="form-control" maxlength="10" minlength="10"
+                          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                          placeholder="contact" required>
                         <label for="floatingInput">Contact No</label>
                       </div>
                     </div>
@@ -51,7 +53,9 @@
                       </div>
                       <div class="col">
                         <div class="form-floating mb-4">
-                          <input type="text" name="pincode" maxlength="6" minlength="6" class="form-control" placeholder="name@example.com" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                          <input type="text" name="pincode" maxlength="6" minlength="6" class="form-control"
+                            placeholder="name@example.com"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                             required>
                           <label for="floatingInput">Pincode</label>
                         </div>
@@ -68,11 +72,12 @@
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="payment-method" id="exampleRadios2"
+                      <input class="form-check-input" type="radio" name="payment-method" id="exampleRadios2" disabled
                         value="CARD">
                       <label class="form-check-label" for="exampleRadios2">
                         Card Payment
                       </label>
+                      {{!-- <span class="text-danger">( payment gateway issue )</span> --}}
                     </div>
                   </div>
                 </div>
@@ -137,7 +142,7 @@
                       </div>
                     </div>
                     <div class="row mb-5 mt-4 ">
-                      <button type="submit"  class="btn btn-outline-primary ">Checkout</button>
+                      <button type="submit" class="btn btn-outline-primary ">Checkout</button>
                     </div>
                   </div>
                 </div>
@@ -158,9 +163,9 @@
       url: '/placeOrder',
       method: 'post',
       data: $('#checkout-form').serialize(),
-      success:(response) => {
-        if(response.status){
-          location.href='/order-feedback'
+      success: (response) => {
+        if (response.status) {
+          location.href = '/order-feedback'
         }
       }
 
